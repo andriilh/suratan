@@ -4,6 +4,8 @@ import {
     Delete,
     Diversity2,
     Fingerprint,
+    FlagCircle,
+    InboxRounded,
     PeopleAlt,
     Person3,
     Star,
@@ -19,6 +21,41 @@ const menuList = [
                 icon: Fingerprint,
                 title: 'Dashboard',
                 routeName: 'dashboard'
+            }
+        ]
+    },
+    {
+        group: 'Warga',
+        menus: [
+            {
+                icon: FlagCircle,
+                title: 'Aduan',
+                routeName: ''
+            },
+            {
+                icon: InboxRounded,
+                title: 'Pengajuan Surat',
+                routeName: ''
+            },
+            {
+                icon: InboxRounded,
+                title: 'Data Kependudukan',
+                routeName: ''
+            }
+        ]
+    },
+    {
+        group: 'Pegawai',
+        menus: [
+            {
+                icon: Person3,
+                title: 'Data Pegawai',
+                routeName: ''
+            },
+            {
+                icon: Person3,
+                title: 'Absensi',
+                routeName: ''
             }
         ]
     },
@@ -49,7 +86,9 @@ export default function Sidebar() {
                             ? 'mt-3'
                             : 'mt-5')} pr-3 font-medium text-gray-500`}
                     >
-                        <span>{group.toUpperCase()}</span>
+                        <span className="ml-4 text-sm">
+                            {group.toUpperCase()}
+                        </span>
                         {menus.map(({ icon, routeName, title }, key) => {
                             return (
                                 <Sidemenu
