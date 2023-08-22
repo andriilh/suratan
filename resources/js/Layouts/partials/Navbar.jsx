@@ -55,6 +55,7 @@ export default function Navbar() {
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
+                            <Dropdown.Link href={'/'}>Welcome</Dropdown.Link>
                             <Dropdown.Link href={route('profile.edit')}>
                                 Profile
                             </Dropdown.Link>

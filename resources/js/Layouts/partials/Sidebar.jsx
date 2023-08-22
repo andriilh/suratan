@@ -35,7 +35,7 @@ const menuList = [
             {
                 icon: InboxRounded,
                 title: 'Pengajuan Surat',
-                routeName: ''
+                routeName: 'pengajuan'
             },
             {
                 icon: InboxRounded,
@@ -82,6 +82,7 @@ export default function Sidebar() {
             {menuList.map(({ group, menus }, i) => {
                 return (
                     <div
+                        key={group}
                         className={`flex flex-col ${(i = 0
                             ? 'mt-3'
                             : 'mt-5')} pr-3 font-medium text-gray-500`}
@@ -92,6 +93,7 @@ export default function Sidebar() {
                         {menus.map(({ icon, routeName, title }, key) => {
                             return (
                                 <Sidemenu
+                                    key={`menu-${key}`}
                                     icon={icon}
                                     title={title}
                                     href={routeName}
