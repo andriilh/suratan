@@ -1,40 +1,34 @@
 import Dropdown from '@/Components/Dropdown';
 import { usePage } from '@inertiajs/react';
-import {
-    GridViewRounded,
-    HelpOutlineRounded,
-    NotificationsOutlined,
-    Search,
-    Settings,
-    Tune
-} from '@mui/icons-material';
-import React from 'react';
+import { NotificationsOutlined } from '@mui/icons-material';
 
 export default function Navbar() {
     const { props } = usePage();
     return (
-        <nav className="sticky top-0 mx-auto flex h-fit w-full max-w-7xl items-center justify-end border-b-2 bg-white/30 px-3 py-3 backdrop-blur-sm">
-            <div className="ml-6 flex items-center">
-                <Dropdown>
-                    <Dropdown.Trigger>
-                        <button>
-                            <NotificationsOutlined />
-                        </button>
-                    </Dropdown.Trigger>
+        <nav className="sticky top-0 flex h-fit items-center border-b-2 bg-white/30 px-3 py-3 backdrop-blur-sm">
+            <div className="flex w-full items-center justify-end">
+                <div className="relative ml-3">
+                    <Dropdown>
+                        <Dropdown.Trigger>
+                            <button>
+                                <NotificationsOutlined />
+                            </button>
+                        </Dropdown.Trigger>
 
-                    <Dropdown.Content align="center">
-                        <Dropdown.Link href={route('profile.edit')}>
-                            Profile
-                        </Dropdown.Link>
-                        <Dropdown.Link
-                            href={route('logout')}
-                            method="post"
-                            as="button"
-                        >
-                            Log Out
-                        </Dropdown.Link>
-                    </Dropdown.Content>
-                </Dropdown>
+                        <Dropdown.Content align="center">
+                            <Dropdown.Link href={route('profile.edit')}>
+                                Profile
+                            </Dropdown.Link>
+                            <Dropdown.Link
+                                href={route('logout')}
+                                method="post"
+                                as="button"
+                            >
+                                Log Out
+                            </Dropdown.Link>
+                        </Dropdown.Content>
+                    </Dropdown>
+                </div>
                 <div className="relative ml-3">
                     <Dropdown>
                         <Dropdown.Trigger>
