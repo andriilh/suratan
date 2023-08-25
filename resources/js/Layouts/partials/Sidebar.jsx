@@ -60,12 +60,12 @@ const menuList = [
             {
                 icon: InboxRounded,
                 title: 'Pengajuan Surat',
-                routeName: 'pengajuan'
+                routeName: 'pengajuan.index'
             },
             {
                 icon: Groups,
                 title: 'Data Kependudukan',
-                routeName: ''
+                routeName: 'kependudukan.index'
             }
         ]
     },
