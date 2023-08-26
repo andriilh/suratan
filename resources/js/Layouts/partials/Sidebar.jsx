@@ -15,6 +15,8 @@ import {
     Star,
     Storage
 } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { createElement } from 'react';
 
 const menuList = [
@@ -141,7 +143,19 @@ export default function Sidebar() {
 }
 
 function Sidemenu({ icon, title, href = '', notification = 0 }) {
-    const active = href && route().current(href) ? true : false;
+    const isActive = () => {
+        const currentRoute = route().current();
+        return (
+            currentRoute === href ||
+            currentRoute.split('.')[0] === href.split('.')[0]
+        );
+    };
+
+    const [active, setActive] = useState(isActive());
+    useEffect(() => {
+        setActive(isActive());
+    }, []);
+
     return (
         <Link
             href={href && route(href)}

@@ -2,25 +2,48 @@ import { Link } from '@inertiajs/react';
 import { KeyboardBackspaceRounded } from '@mui/icons-material';
 import React from 'react';
 
-export default function Pagination() {
+export default function Pagination({ meta, links }) {
     return (
         <div className="flex gap-2 text-sm">
             <PageButton>First</PageButton>
-            <PageButton>
-                <KeyboardBackspaceRounded />
-            </PageButton>
-            <PageButton active={true}>1</PageButton>
-            <PageButton disabled={true}>2</PageButton>
-            <PageButton>3</PageButton>
-            <PageButton>
-                <KeyboardBackspaceRounded className="rotate-180" />
-            </PageButton>
+            {meta.links.map(({ active, label, url }, index) => {
+                const isFirst = index == 0 ? true : false;
+                const isLast = index == meta.links.length - 1 ? true : false;
+                if (isFirst) {
+                    return (
+                        <PageButton
+                            href={url}
+                            disabled={meta.current_page == 1}
+                            key="prev"
+                        >
+                            <KeyboardBackspaceRounded />
+                        </PageButton>
+                    );
+                }
+                if (isLast) {
+                    return (
+                        <PageButton
+                            href={url}
+                            disabled={meta.current_page == meta.last_page}
+                            key="next"
+                        >
+                            <KeyboardBackspaceRounded className="rotate-180" />
+                        </PageButton>
+                    );
+                }
+
+                return (
+                    <PageButton href={url} active={active} key={label}>
+                        {label}
+                    </PageButton>
+                );
+            })}
             <PageButton>Last</PageButton>
         </div>
     );
 }
 
-function PageButton({ children, active = false, disabled = false }) {
+function PageButton({ children, active = false, disabled = false, href = '' }) {
     var className = '';
     if (active && !disabled) {
         className = 'bg-gray-800 text-gray-100 hover:bg-gray-700';
@@ -40,6 +63,7 @@ function PageButton({ children, active = false, disabled = false }) {
             className={`inline-flex items-center rounded-lg p-1  transition-colors ${
                 disabled && 'cursor-not-allowed'
             } ${className}`}
+            href={href && href}
         >
             <div className="flex h-6 w-6 items-center justify-center text-center">
                 {children}

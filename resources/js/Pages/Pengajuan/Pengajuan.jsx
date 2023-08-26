@@ -135,7 +135,6 @@ function Table({ dataTabel }) {
                 <div className="hidden md:block">
                     {10} data dari total {130}
                 </div>
-                <Pagination />
             </div>
         </div>
     );

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Resident\ResidentIndexResource;
 use App\Models\Resident;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class ResidentController extends Controller
@@ -13,10 +15,14 @@ class ResidentController extends Controller
      */
     public function index()
     {
-        $resident = Resident::paginate(10);
+        $resident = Resident::query()->when(FacadesRequest::input('search'), function ($query, $search) {
+            $query->where('nik', 'like', '%' . $search . '%')
+                ->OrWhere('nama', 'like', '%' . $search . '%')
+                ->OrWhere('agama', 'like', '%' . $search . '%');
+        })->paginate(10);
 
         return Inertia::render('Resident/Resident', [
-            'residents' => $resident
+            'residents' => ResidentIndexResource::collection($resident)
         ]);
     }
 
