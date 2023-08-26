@@ -25,7 +25,7 @@ class ResidentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Resident/Partials/CreateResident');
+        return Inertia::render('Resident/CreateResident');
     }
 
     /**
@@ -61,8 +61,6 @@ class ResidentController extends Controller
             'goldar'            => $request->goldar,
             'kewarganegaraan'   => $request->kewarganegaraan,
         ]);
-
-        return back();
     }
 
     /**
