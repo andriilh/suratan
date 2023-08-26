@@ -13,7 +13,11 @@ class ResidentController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Resident/Resident');
+        $resident = Resident::paginate(10);
+
+        return Inertia::render('Resident/Resident', [
+            'residents' => $resident
+        ]);
     }
 
     /**
@@ -29,7 +33,36 @@ class ResidentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nik'               => ['required', 'unique:' . Resident::class],
+            'nama'              => ['required', 'string'],
+            'sex'               => ['required'],
+            'pob'               => ['required', 'string'],
+            'dob'               => ['required', 'date', 'before:today'],
+            'alamat'            => ['required', 'string'],
+            'pekerjaan'         => ['required', 'string'],
+            'perkawinan'        => ['required', 'string'],
+            'agama'             => ['required', 'string'],
+            'goldar'            => ['required', 'string'],
+            'kewarganegaraan'   => ['required', 'string'],
+        ]);
+
+        Resident::create([
+            'nik'               => $request->nik,
+            'nama'              => $request->nama,
+            'sex'               => $request->sex,
+            'pob'               => $request->pob,
+            'dob'               => $request->dob,
+            'alamat'            => $request->alamat,
+            'pekerjaan'         => $request->pekerjaan,
+            'perkawinan'        => $request->perkawinan,
+            'agama'             => $request->agama,
+            'telpon'            => $request->telpon,
+            'goldar'            => $request->goldar,
+            'kewarganegaraan'   => $request->kewarganegaraan,
+        ]);
+
+        return back();
     }
 
     /**

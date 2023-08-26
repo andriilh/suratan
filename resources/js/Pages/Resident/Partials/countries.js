@@ -1,4 +1,4 @@
-export default countries = [
+export const countries = [
     { value: 'Afghanistan', label: 'Afghanistan' },
     { value: 'Albania', label: 'Albania' },
     { value: 'Algeria', label: 'Algeria' },

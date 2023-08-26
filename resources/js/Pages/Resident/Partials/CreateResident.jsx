@@ -6,66 +6,20 @@ import SelectInput from '@/Components/SelectInput';
 import TextAreaInput from '@/Components/TextAreaInput';
 import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
+import { Transition } from '@headlessui/react';
 import { Head, Link, useForm } from '@inertiajs/react';
-// import countries from './countries';
-
-// console.log(countries);
-
-const agama = [
-    { value: 'Islam', label: 'Islam' },
-    { value: 'Kristen', label: 'Kristen' },
-    { value: 'Protestan', label: 'Protestan' },
-    { value: 'Hindu', label: 'Hindu' },
-    { value: 'Budha', label: 'Budha' },
-    { value: 'Konghucu', label: 'Konghucu' },
-    { value: 'Agama Lokal', label: 'Agama Lokal' },
-    { value: '-', label: '-' }
-];
-
-const sex = [
-    { value: 'Laki-Laki', label: 'Laki-Laki' },
-    { value: 'Perempuan', label: 'Perempuan' }
-];
-
-const job = [
-    {
-        value: 'Pegawai Negeri Sipil (PNS)',
-        label: 'Pegawai Negeri Sipil (PNS)'
-    },
-    { value: 'Pegawai BUMN', label: 'Pegawai BUMN' },
-    { value: 'Swasta', label: 'Swasta' },
-    { value: 'Wirausaha', label: 'Wirausaha' },
-    { value: 'Petani', label: 'Petani' },
-    { value: 'Nelayan', label: 'Nelayan' },
-    { value: 'Buruh', label: 'Buruh' },
-    { value: 'Pensiunan', label: 'Pensiunan' },
-    { value: 'Pelajar/Mahasiswa', label: 'Pelajar/Mahasiswa' },
-    { value: 'Belum Bekerja', label: 'Belum Bekerja' },
-    { value: 'Lainnya', label: 'Lainnya' }
-];
-
-const marriage = [
-    { value: 'Belum Kawin', label: 'Belum Kawin' },
-    { value: 'Kawin', label: 'Kawin' },
-    { value: 'Cerai Hidup', label: 'Cerai Hidup' },
-    { value: 'Cerai Mati', label: 'Cerai Mati' }
-];
-
-const blood = [
-    { value: '-', label: '-' },
-    { value: 'O', label: 'O' },
-    { value: 'A', label: 'A' },
-    { value: 'B', label: 'B' },
-    { value: 'AB', label: 'AB' }
-];
-
-const citizen = [
-    { value: 'Indonesia', label: 'Indonesia' },
-    { value: 'Asing', label: 'Asing' }
-];
+import { selectResidents } from './residentsSelects';
 
 export default function CreateResident() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const {
+        data,
+        setData,
+        post,
+        processing,
+        errors,
+        reset,
+        recentlySuccessful
+    } = useForm({
         nik: '',
         nama: '',
         sex: '',
@@ -89,13 +43,24 @@ export default function CreateResident() {
         }
     };
 
+    const submit = (e) => {
+        e.preventDefault();
+        post(route('kependudukan.store'), {
+            preserveScroll: true,
+            onSuccess: () => reset()
+        });
+    };
+
     return (
         <Authenticated>
             <Head title="Tambah Data Warga" />
             <div className="p-6 text-gray-900">
                 <h1 className="text-lg md:text-2xl">Data Warga Baru</h1>
                 <div className="relative mt-6 rounded-lg bg-white p-5 shadow-md md:mt-10">
-                    <form className="flex flex-col gap-y-4">
+                    <form
+                        className="flex max-w-screen-xl flex-col gap-y-4"
+                        onSubmit={submit}
+                    >
                         <div className="flex flex-wrap gap-4 lg:flex-nowrap">
                             <div className="w-full">
                                 <InputLabel
@@ -152,7 +117,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="agama"
-                                    options={agama}
+                                    options={selectResidents.agama}
                                     value={data.agama}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -172,7 +137,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="sex"
-                                    options={sex}
+                                    options={selectResidents.sex}
                                     value={data.sex}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -196,6 +161,7 @@ export default function CreateResident() {
                                     id="pob"
                                     name="city"
                                     value={data.pob}
+                                    placeholder="Jakarta"
                                     className="mt-1 block w-full"
                                     autoComplete="pob"
                                     onChange={(e) =>
@@ -221,7 +187,6 @@ export default function CreateResident() {
                                     value={data.dob}
                                     className="mt-1 block w-full"
                                     autoComplete="dob"
-                                    isFocused={true}
                                     onChange={(e) =>
                                         setData('dob', e.target.value)
                                     }
@@ -242,7 +207,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="pekerjaan"
-                                    options={job}
+                                    options={selectResidents.job}
                                     value={data.pekerjaan}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -262,7 +227,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="perkawinan"
-                                    options={marriage}
+                                    options={selectResidents.marriage}
                                     value={data.perkawinan}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -284,7 +249,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="goldar"
-                                    options={blood}
+                                    options={selectResidents.blood}
                                     value={data.goldar}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -304,7 +269,7 @@ export default function CreateResident() {
                                 />
                                 <SelectInput
                                     id="kewarganegaraan"
-                                    options={citizen}
+                                    options={selectResidents.citizen}
                                     value={data.kewarganegaraan}
                                     className="mt-1 block w-full"
                                     onChange={(e) =>
@@ -342,11 +307,24 @@ export default function CreateResident() {
                                 className="mt-2"
                             />
                         </div>
-                        <div className="flex justify-end gap-x-6">
+                        <div className="flex items-center justify-end gap-x-6 transition-all">
                             <Link as="a" href={route('kependudukan.index')}>
                                 <SecondaryButton>Batal</SecondaryButton>
                             </Link>
-                            <PrimaryButton type="submit">Simpan</PrimaryButton>
+                            <Transition
+                                show={recentlySuccessful}
+                                enter="transition ease-in-out"
+                                enterFrom="opacity-0"
+                                leave="transition ease-in-out"
+                                leaveTo="opacity-0"
+                            >
+                                <p className="text-sm text-gray-600">
+                                    Data Tersimpan
+                                </p>
+                            </Transition>
+                            <PrimaryButton type="submit" disabled={processing}>
+                                Simpan
+                            </PrimaryButton>
                         </div>
                     </form>
                 </div>
