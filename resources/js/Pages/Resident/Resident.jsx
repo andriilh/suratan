@@ -41,6 +41,18 @@ export default function Kependudukan({ residents }) {
         }
 
         const timer = setTimeout(() => {
+            /*
+             *  TODO
+             *  This process has some flaws in logic.
+             *	It will imidiately call to api endpoint when first visit to this page
+             *	This is because it reading search qery is empty, therefore if its empty
+             *	then call api to clear the search query in backend
+             *
+             * If I remove that functionality, the search function will not clear search query in backend
+             *
+             * Next:
+             * research how to handle this logic
+             * */
             router.get(route('kependudukan.index'), params, {
                 preserveState: true
             });
