@@ -80,9 +80,12 @@ class ResidentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Resident $resident)
+    public function show(Request $request)
     {
-        //
+        $resident = Resident::find(request('kependudukan'));
+        return Inertia::render('Resident/DetailResident', [
+            'resident' => $resident
+        ]);
     }
 
     /**

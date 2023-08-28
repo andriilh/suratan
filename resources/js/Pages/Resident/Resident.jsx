@@ -159,6 +159,10 @@ export default function Kependudukan({ residents }) {
                                                                 show: false
                                                             });
                                                         }}
+                                                        show={route(
+                                                            'kependudukan.show',
+                                                            id
+                                                        )}
                                                         destroyAction={(e) => {
                                                             e.stopPropagation();
                                                             setConfirmDelete({
@@ -206,7 +210,7 @@ export default function Kependudukan({ residents }) {
     );
 }
 
-function MoreButton({ destroyAction, ...props }) {
+function MoreButton({ destroyAction, show, edit, ...props }) {
     return (
         <div {...props}>
             <Dropdown>
@@ -218,7 +222,7 @@ function MoreButton({ destroyAction, ...props }) {
                     </Tooltip>
                 </Dropdown.Trigger>
                 <Dropdown.Content contentClasses="py-1 bg-white z-50">
-                    <Dropdown.Link>Lihat</Dropdown.Link>
+                    <Dropdown.Link href={show}>Lihat</Dropdown.Link>
                     <Dropdown.Link>Edit</Dropdown.Link>
                     <button
                         className="block w-full px-4 py-2 text-left text-sm leading-5 text-red-500 transition duration-150 ease-in-out hover:bg-red-100 focus:bg-red-100 focus:outline-none"
