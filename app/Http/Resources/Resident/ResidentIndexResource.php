@@ -16,6 +16,7 @@ class ResidentIndexResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
+            'id'                => $this->id,
             'nik'               => $this->nik,
             'nama'              => $this->nama,
             'sex'               => $this->sex,

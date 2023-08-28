@@ -2,13 +2,19 @@ import { Link } from '@inertiajs/react';
 import { KeyboardBackspaceRounded } from '@mui/icons-material';
 import React from 'react';
 
-export default function Pagination({ meta, links }) {
+export default function Pagination({ meta, links, search }) {
     return (
         <div className="flex gap-2 text-sm">
-            <PageButton>First</PageButton>
+            <PageButton
+                href={meta.links[1].url}
+                disabled={meta.links[1].active}
+            >
+                First
+            </PageButton>
             {meta.links.map(({ active, label, url }, index) => {
                 const isFirst = index == 0 ? true : false;
                 const isLast = index == meta.links.length - 1 ? true : false;
+                // const href = url + (search ? `?search=${search}` : '');
                 if (isFirst) {
                     return (
                         <PageButton
@@ -38,7 +44,12 @@ export default function Pagination({ meta, links }) {
                     </PageButton>
                 );
             })}
-            <PageButton>Last</PageButton>
+            <PageButton
+                href={meta.links[meta.last_page].url}
+                disabled={meta.links[meta.last_page].active}
+            >
+                Last
+            </PageButton>
         </div>
     );
 }
@@ -58,7 +69,7 @@ function PageButton({ children, active = false, disabled = false, href = '' }) {
 
     return (
         <Link
-            as="button"
+            as="a"
             disabled={disabled}
             className={`inline-flex items-center rounded-lg p-1  transition-colors ${
                 disabled && 'cursor-not-allowed'

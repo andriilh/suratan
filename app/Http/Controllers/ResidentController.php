@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Resident\ResidentIndexResource;
 use App\Models\Resident;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class ResidentController extends Controller
@@ -15,14 +14,23 @@ class ResidentController extends Controller
      */
     public function index()
     {
-        $resident = Resident::query()->when(FacadesRequest::input('search'), function ($query, $search) {
-            $query->where('nik', 'like', '%' . $search . '%')
-                ->OrWhere('nama', 'like', '%' . $search . '%')
-                ->OrWhere('agama', 'like', '%' . $search . '%');
-        })->paginate(10);
+        // $query = Resident::query();
+        $residents = Resident::paginate(10)->withQueryString();
+        if (request('search')) {
+            $residents = Resident::where('nik', 'like', '%' . request('search') . '%')
+                ->OrWhere('nama', 'like', '%' . request('search') . '%')
+                ->OrWhere('alamat', 'like', '%' . request('search') . '%')
+                ->OrWhere('pob', 'like', '%' . request('search') . '%')
+                ->OrWhere('dob', 'like', '%' . request('search') . '%')
+                ->OrWhere('sex', 'like', '%' . request('search') . '%')
+                ->OrWhere('agama', 'like', '%' . request('search') . '%')
+                ->paginate(10)->withQueryString();
+        }
+
+
 
         return Inertia::render('Resident/Resident', [
-            'residents' => ResidentIndexResource::collection($resident)
+            'residents' => ResidentIndexResource::collection($residents)
         ]);
     }
 
@@ -96,8 +104,10 @@ class ResidentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Resident $resident)
+    public function destroy(Request $request)
     {
-        //
+        $resident = new Resident();
+        $resident->destroy($request->id);
+        return to_route('kependudukan.index');
     }
 }
