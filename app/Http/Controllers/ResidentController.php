@@ -91,17 +91,33 @@ class ResidentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Resident $resident)
+    public function edit($id)
     {
-        //
+        $resident = Resident::find($id);
+        return Inertia::render('Resident/EditResident', [
+            'resident' => $resident
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Resident $resident)
+    public function update(Request $request, $id)
     {
-        //
+        Resident::where("id", $id)->update([
+            'nik'               => $request->nik,
+            'nama'              => $request->nama,
+            'sex'               => $request->sex,
+            'pob'               => $request->pob,
+            'dob'               => $request->dob,
+            'alamat'            => $request->alamat,
+            'pekerjaan'         => $request->pekerjaan,
+            'perkawinan'        => $request->perkawinan,
+            'agama'             => $request->agama,
+            'telpon'            => $request->telpon,
+            'goldar'            => $request->goldar,
+            'kewarganegaraan'   => $request->kewarganegaraan,
+        ]);
     }
 
     /**

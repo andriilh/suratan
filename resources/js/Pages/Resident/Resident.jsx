@@ -175,6 +175,10 @@ export default function Kependudukan({ residents }) {
                                                             'kependudukan.show',
                                                             id
                                                         )}
+                                                        edit={route(
+                                                            'kependudukan.edit',
+                                                            id
+                                                        )}
                                                         destroyAction={(e) => {
                                                             e.stopPropagation();
                                                             setConfirmDelete({
@@ -235,7 +239,7 @@ function MoreButton({ destroyAction, show, edit, ...props }) {
                 </Dropdown.Trigger>
                 <Dropdown.Content contentClasses="py-1 bg-white z-50">
                     <Dropdown.Link href={show}>Lihat</Dropdown.Link>
-                    <Dropdown.Link>Edit</Dropdown.Link>
+                    <Dropdown.Link href={edit}>Edit</Dropdown.Link>
                     <button
                         className="block w-full px-4 py-2 text-left text-sm leading-5 text-red-500 transition duration-150 ease-in-out hover:bg-red-100 focus:bg-red-100 focus:outline-none"
                         onClick={destroyAction}

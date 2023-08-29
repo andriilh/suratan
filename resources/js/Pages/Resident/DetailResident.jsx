@@ -1,7 +1,6 @@
 import Authenticated from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
-import FormResident from './Partials/FormResident';
-import { Edit } from '@mui/icons-material';
+import { Head, Link, router } from '@inertiajs/react';
+import { Edit, Refresh } from '@mui/icons-material';
 
 var namaBulan = [
     'Januari',
@@ -20,6 +19,9 @@ var namaBulan = [
 
 export default function DetailResident({ resident }) {
     const dob = new Date(resident.dob);
+    const handleRefresh = () => {
+        router.visit(route('kependudukan.show', resident.id));
+    };
     return (
         <Authenticated>
             <Head title="Detail Warga" />
@@ -30,13 +32,32 @@ export default function DetailResident({ resident }) {
                 <div className="mt-4 rounded-lg bg-white p-3 shadow-md md:mt-6">
                     <div className="grid lg:grid-flow-col lg:grid-cols-2">
                         <div className="relative flex items-center justify-center p-4 lg:col-start-2">
-                            <div className="group absolute right-0 top-0">
-                                <span className="hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-gray-50 group-hover:inline">
-                                    Edit
-                                </span>
-                                <Link className="rounded-full p-2 text-gray-500 group-hover:text-gray-800">
-                                    <Edit fontSize="small" />
-                                </Link>
+                            <div className="absolute right-0 top-0 flex items-center">
+                                <div className="group relative inline-flex items-center">
+                                    <span className="absolute -left-14 hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-gray-50 group-hover:inline">
+                                        Reload
+                                    </span>
+                                    <button
+                                        onClick={handleRefresh}
+                                        className="flex h-8 w-8 items-center justify-center rounded-full p-1 text-gray-500 focus:text-gray-800 focus:ring-blue-600 group-hover:text-gray-800"
+                                    >
+                                        <Refresh fontSize="small" />
+                                    </button>
+                                </div>
+                                <div className="group relative inline-flex items-center">
+                                    <span className="absolute -left-10 hidden rounded-lg bg-gray-800 px-2 py-1 text-xs text-gray-50 group-hover:inline">
+                                        Edit
+                                    </span>
+                                    <Link
+                                        href={route(
+                                            'kependudukan.edit',
+                                            resident.id
+                                        )}
+                                        className="flex h-8 w-8 items-center justify-center rounded-full p-1 text-gray-500 focus:text-gray-800 focus:ring-blue-600 group-hover:text-gray-800"
+                                    >
+                                        <Edit fontSize="small" />
+                                    </Link>
+                                </div>
                             </div>
                             <div
                                 className="aspect-[4/3] h-60 w-44 overflow-hidden rounded-md bg-cover bg-center"
@@ -108,76 +129,90 @@ export default function DetailResident({ resident }) {
                         </div>
                         <div className="hidden sm:block lg:col-start-1">
                             <table className="text-left">
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">Nama</th>
-                                    <td className="py-4">{resident.nama}</td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">NIK</th>
-                                    <td className="py-4">{resident.nik}</td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Tempat, Tanggal Lahir
-                                    </th>
-                                    <td className="py-4">
-                                        {resident.pob +
-                                            ', ' +
-                                            dob.getDate() +
-                                            ' ' +
-                                            namaBulan[dob.getMonth()] +
-                                            ' ' +
-                                            dob.getFullYear()}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Agama
-                                    </th>
-                                    <td className="py-4">{resident.agama}</td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Jenis Kelamin
-                                    </th>
-                                    <td className="py-4">{resident.sex}</td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Status Perkawinan
-                                    </th>
-                                    <td className="py-4">
-                                        {resident.perkawinan}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Status Pekerjaan
-                                    </th>
-                                    <td className="py-4">
-                                        {resident.pekerjaan}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Kewarganegaraan
-                                    </th>
-                                    <td className="py-4">
-                                        {resident.kewarganegaraan}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Golongan Darah
-                                    </th>
-                                    <td className="py-4">{resident.goldar}</td>
-                                </tr>
-                                <tr>
-                                    <th className="py-4 pr-12 md:pr-4">
-                                        Alamat
-                                    </th>
-                                    <td className="py-4">{resident.alamat}</td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Nama
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.nama}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            NIK
+                                        </th>
+                                        <td className="py-4">{resident.nik}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Tempat, Tanggal Lahir
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.pob +
+                                                ', ' +
+                                                dob.getDate() +
+                                                ' ' +
+                                                namaBulan[dob.getMonth()] +
+                                                ' ' +
+                                                dob.getFullYear()}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Agama
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.agama}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Jenis Kelamin
+                                        </th>
+                                        <td className="py-4">{resident.sex}</td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Status Perkawinan
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.perkawinan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Status Pekerjaan
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.pekerjaan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Kewarganegaraan
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.kewarganegaraan}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Golongan Darah
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.goldar}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Alamat
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.alamat}
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

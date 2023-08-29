@@ -9,28 +9,30 @@ import { Transition } from '@headlessui/react';
 import { Link, useForm } from '@inertiajs/react';
 import { selectResidents } from './residentsSelects';
 
-export default function FormResident({ mode = 'create' }) {
+export default function FormResident({ mode = 'create', resident = {} }) {
     const {
         data,
         setData,
         post,
+        patch,
         processing,
         errors,
         reset,
         recentlySuccessful
     } = useForm({
-        nik: '',
-        nama: '',
-        sex: '',
-        pob: '',
-        dob: '',
-        alamat: '',
-        pekerjaan: '',
-        perkawinan: '',
-        agama: '',
-        telpon: '',
-        goldar: '',
-        kewarganegaraan: ''
+        id: mode === 'edit' ? resident.id : '',
+        nik: mode === 'edit' ? resident.nik : '',
+        nama: mode === 'edit' ? resident.nama : '',
+        sex: mode === 'edit' ? resident.sex : '',
+        pob: mode === 'edit' ? resident.pob : '',
+        dob: mode === 'edit' ? resident.dob : '',
+        alamat: mode === 'edit' ? resident.alamat : '',
+        pekerjaan: mode === 'edit' ? resident.pekerjaan : '',
+        perkawinan: mode === 'edit' ? resident.perkawinan : '',
+        agama: mode === 'edit' ? resident.agama : '',
+        telpon: mode === 'edit' ? resident.telpon : '',
+        goldar: mode === 'edit' ? resident.goldar : '',
+        kewarganegaraan: 'edit' ? resident.kewarganegaraan : ''
     });
 
     function handleInputNumber(event, field) {
@@ -44,10 +46,18 @@ export default function FormResident({ mode = 'create' }) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('kependudukan.store'), {
-            preserveScroll: true,
-            onSuccess: () => reset()
-        });
+        if (mode === 'create') {
+            post(route('kependudukan.store'), {
+                preserveScroll: true,
+                onSuccess: () => reset()
+            });
+        } else {
+            patch(route('kependudukan.update', { kependudukan: data.id }), {
+                onSuccess: () => {
+                    history.back();
+                }
+            });
+        }
     };
     return (
         <form
@@ -235,7 +245,7 @@ export default function FormResident({ mode = 'create' }) {
                 <InputError message={errors.alamat} className="mt-2" />
             </div>
             <div className="flex items-center justify-end gap-x-6 transition-all">
-                <Link as="a" href={route('kependudukan.index')}>
+                <Link as="a" onClick={() => history.back()}>
                     <SecondaryButton>Batal</SecondaryButton>
                 </Link>
                 <Transition
