@@ -8,7 +8,7 @@ export default function Authenticated({ user, header, children }) {
             <Sidebar />
             <section className="z-0 w-screen bg-gray-50 md:ml-64 md:w-[calc(100vw-16rem)]">
                 <Navbar />
-                <main className="h-screen w-full text-gray-700">
+                <main className="relative h-screen w-full text-gray-700">
                     <div className="overflow-hidden">{children}</div>
                 </main>
             </section>

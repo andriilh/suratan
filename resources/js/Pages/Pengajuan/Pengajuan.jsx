@@ -1,6 +1,7 @@
 import Pagination from '@/Components/Pagination';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { MoreHoriz } from '@mui/icons-material';
 import React from 'react';
 
 const dataSurat = [
@@ -120,12 +121,9 @@ function Table({ dataTabel }) {
                                     <td className="px-6 py-4">{pengaju}</td>
                                     <td className="px-6 py-4">{tanggal}</td>
                                     <td className="px-6 py-4 text-right">
-                                        <a
-                                            href="#"
-                                            className="font-medium text-blue-600 hover:underline"
-                                        >
-                                            Proses
-                                        </a>
+                                        <button>
+                                            <MoreHoriz className="text-blue-600" />
+                                        </button>
                                     </td>
                                 </tr>
                             );
@@ -137,7 +135,6 @@ function Table({ dataTabel }) {
                 <div className="hidden md:block">
                     {10} data dari total {130}
                 </div>
-                <Pagination />
             </div>
         </div>
     );

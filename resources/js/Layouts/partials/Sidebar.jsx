@@ -1,16 +1,22 @@
 import { Link } from '@inertiajs/react';
 import {
     AccessTime,
+    AllInboxRounded,
+    AttachEmailRounded,
     Delete,
     Diversity2,
     Fingerprint,
     FlagCircle,
+    Groups,
     InboxRounded,
+    MoveToInbox,
     PeopleAlt,
     Person3,
     Star,
     Storage
 } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { createElement } from 'react';
 
 const menuList = [
@@ -25,22 +31,43 @@ const menuList = [
         ]
     },
     {
+        group: 'Data Surat',
+        menus: [
+            {
+                icon: AllInboxRounded,
+                title: 'Masuk',
+                routeName: ''
+            },
+            {
+                icon: MoveToInbox,
+                title: 'Keluar',
+                routeName: ''
+            },
+            {
+                icon: AttachEmailRounded,
+                title: 'Jenis',
+                routeName: ''
+            }
+        ]
+    },
+    {
         group: 'Warga',
         menus: [
             {
                 icon: FlagCircle,
                 title: 'Aduan',
-                routeName: ''
+                routeName: '',
+                notification: 12
             },
             {
                 icon: InboxRounded,
                 title: 'Pengajuan Surat',
-                routeName: 'pengajuan'
+                routeName: 'pengajuan.index'
             },
             {
-                icon: InboxRounded,
+                icon: Groups,
                 title: 'Data Kependudukan',
-                routeName: ''
+                routeName: 'kependudukan.index'
             }
         ]
     },
@@ -79,47 +106,74 @@ export default function Sidebar() {
                     Suratan
                 </span>
             </div>
-            {menuList.map(({ group, menus }, i) => {
-                return (
-                    <div
-                        key={group}
-                        className={`flex flex-col ${(i = 0
-                            ? 'mt-3'
-                            : 'mt-5')} pr-3 font-medium text-gray-500`}
-                    >
-                        <span className="ml-4 text-sm">
-                            {group.toUpperCase()}
-                        </span>
-                        {menus.map(({ icon, routeName, title }, key) => {
-                            return (
-                                <Sidemenu
-                                    key={`menu-${key}`}
-                                    icon={icon}
-                                    title={title}
-                                    href={routeName}
-                                />
-                            );
-                        })}
-                    </div>
-                );
-            })}
+            <div className="h-[calc(100vh-7.75rem)] overflow-y-auto">
+                {menuList.map(({ group, menus }, i) => {
+                    return (
+                        <div
+                            key={group}
+                            className={`flex flex-col ${(i = 0
+                                ? 'mt-3'
+                                : 'mt-5')} pr-3 font-medium text-gray-500`}
+                        >
+                            <span className="ml-4 text-sm">
+                                {group.toUpperCase()}
+                            </span>
+                            {menus.map(
+                                (
+                                    { icon, routeName, title, notification },
+                                    key
+                                ) => {
+                                    return (
+                                        <Sidemenu
+                                            key={`menu-${key}`}
+                                            icon={icon}
+                                            title={title}
+                                            href={routeName}
+                                            notification={notification}
+                                        />
+                                    );
+                                }
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
         </aside>
     );
 }
 
-function Sidemenu({ icon, title, href = '' }) {
-    const active = href && route().current(href) ? true : false;
+function Sidemenu({ icon, title, href = '', notification = 0 }) {
+    const isActive = () => {
+        const currentRoute = route().current();
+        return (
+            currentRoute === href ||
+            currentRoute.split('.')[0] === href.split('.')[0]
+        );
+    };
+
+    const [active, setActive] = useState(isActive());
+    useEffect(() => {
+        setActive(isActive());
+    }, []);
+
     return (
         <Link
             href={href && route(href)}
-            className={`rounded-r-lg px-4 py-2 transition-colors  ${
+            className={`flex items-center justify-between rounded-r-lg px-4 py-2 transition-colors  ${
                 active
-                    ? 'bg-gray-100/80 font-bold text-gray-800 hover:text-gray-700'
+                    ? 'bg-gray-100 font-bold text-gray-800 hover:text-gray-700'
                     : 'hover:font-bold hover:text-gray-800'
             }`}
         >
-            {createElement(icon, { className: 'w-10 h-10' })}{' '}
-            <span className="ml-3">{title}</span>
+            <div className="flex items-center">
+                {createElement(icon, { className: 'w-10 h-10' })}{' '}
+                <span className="ml-3">{title}</span>
+            </div>
+            {notification > 0 && (
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-800 p-1 text-xs text-gray-100">
+                    {notification > 99 ? '99+' : notification}
+                </span>
+            )}
         </Link>
     );
 }
