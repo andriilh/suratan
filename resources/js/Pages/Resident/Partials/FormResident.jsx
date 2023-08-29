@@ -32,7 +32,7 @@ export default function FormResident({ mode = 'create', resident = {} }) {
         agama: mode === 'edit' ? resident.agama : '',
         telpon: mode === 'edit' ? resident.telpon : '',
         goldar: mode === 'edit' ? resident.goldar : '',
-        kewarganegaraan: 'edit' ? resident.kewarganegaraan : ''
+        kewarganegaraan: mode === 'edit' ? resident.kewarganegaraan : ''
     });
 
     function handleInputNumber(event, field) {
