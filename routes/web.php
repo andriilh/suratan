@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LetterTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResidentController;
 use Illuminate\Foundation\Application;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Pengajuan/Pengajuan');
     })->name('pengajuan.index');
     Route::resource('/kependudukan', ResidentController::class);
+    Route::resource('/jenissurat', LetterTypeController::class);
 });
 
 require __DIR__ . '/auth.php';

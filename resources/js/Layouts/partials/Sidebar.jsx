@@ -46,7 +46,7 @@ const menuList = [
             {
                 icon: AttachEmailRounded,
                 title: 'Jenis',
-                routeName: ''
+                routeName: 'jenissurat.index'
             }
         ]
     },
