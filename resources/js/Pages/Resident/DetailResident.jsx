@@ -20,7 +20,7 @@ var namaBulan = [
 export default function DetailResident({ resident }) {
     const dob = new Date(resident.dob);
     const handleRefresh = () => {
-        router.visit(route('kependudukan.show', resident.id));
+        router.reload();
     };
     return (
         <Authenticated>
@@ -126,6 +126,10 @@ export default function DetailResident({ resident }) {
                                 <span className="font-semibold">Alamat</span>
                                 <span>{resident.alamat}</span>
                             </div>
+                            <div className="grid md:grid-flow-col">
+                                <span className="font-semibold">Nomor HP</span>
+                                <span>{resident.telpon}</span>
+                            </div>
                         </div>
                         <div className="hidden sm:block lg:col-start-1">
                             <table className="text-left">
@@ -210,6 +214,14 @@ export default function DetailResident({ resident }) {
                                         </th>
                                         <td className="py-4">
                                             {resident.alamat}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th className="py-4 pr-12 md:pr-4 2xl:pr-32">
+                                            Nomor HP
+                                        </th>
+                                        <td className="py-4">
+                                            {resident.telpon}
                                         </td>
                                     </tr>
                                 </tbody>
