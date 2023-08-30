@@ -4,12 +4,13 @@ import Dropdown from '@/Components/Dropdown';
 import Fab from '@/Components/Fab';
 import Modal from '@/Components/Modal';
 import Pagination from '@/Components/Pagination';
+import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import Tooltip from '@/Components/Tooltip';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, router } from '@inertiajs/react';
-import { MoreHoriz, Search } from '@mui/icons-material';
+import { Add, MoreHoriz, Search } from '@mui/icons-material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -67,7 +68,7 @@ export default function Kependudukan({ residents }) {
         <Authenticated>
             <Head title="Data Warga" />
             <div className="p-6 text-gray-900">
-                <Link href={route('kependudukan.create')}>
+                <Link href={route('kependudukan.create')} className="md:hidden">
                     <Fab tooltip="Tambah Data" />
                 </Link>
                 <h1 className="text-lg md:text-2xl">Data Warga</h1>
@@ -77,19 +78,33 @@ export default function Kependudukan({ residents }) {
                     obcaecati, et laboriosam!
                 </p>
                 <div className="relative mt-6 overflow-x-auto overflow-y-visible rounded-lg bg-white p-5 shadow-md md:mt-10">
-                    <label htmlFor="table-search" className="sr-only">
-                        Search
-                    </label>
-                    <div className="relative mb-4 mt-1">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <Search className="h-4 w-4 text-gray-500" />
+                    <div className="mb-4 mt-1 flex items-center md:justify-between">
+                        <div>
+                            <label htmlFor="table-search" className="sr-only">
+                                Search
+                            </label>
+                            <div className="relative">
+                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <Search className="h-4 w-4 text-gray-500" />
+                                </div>
+                                <TextInput
+                                    className="pl-10"
+                                    placeholder="Search for items"
+                                    value={query}
+                                    onChange={handleSearchInput}
+                                />
+                            </div>
                         </div>
-                        <TextInput
-                            className="pl-10"
-                            placeholder="Search for items"
-                            value={query}
-                            onChange={handleSearchInput}
-                        />
+                        <div className="hidden md:flex md:items-center">
+                            <PrimaryButton
+                                onClick={() =>
+                                    router.visit(route('kependudukan.create'))
+                                }
+                            >
+                                <Add fontSize="small" className="mr-2" />{' '}
+                                <span>Tambah Data</span>
+                            </PrimaryButton>
+                        </div>
                     </div>
                     <table className="w-full text-left text-sm text-gray-500">
                         <thead className="bg-gray-50 text-xs uppercase text-gray-700">
