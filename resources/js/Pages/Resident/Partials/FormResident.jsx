@@ -23,16 +23,25 @@ export default function FormResident({ mode = 'create', resident = {} }) {
         id: mode === 'edit' ? resident.id : '',
         nik: mode === 'edit' ? resident.nik : '',
         nama: mode === 'edit' ? resident.nama : '',
-        sex: mode === 'edit' ? resident.sex : '',
+        sex: mode === 'edit' ? resident.sex : selectResidents.sex[0].value,
         pob: mode === 'edit' ? resident.pob : '',
         dob: mode === 'edit' ? resident.dob : '',
         alamat: mode === 'edit' ? resident.alamat : '',
-        pekerjaan: mode === 'edit' ? resident.pekerjaan : '',
-        perkawinan: mode === 'edit' ? resident.perkawinan : '',
-        agama: mode === 'edit' ? resident.agama : '',
+        pekerjaan:
+            mode === 'edit' ? resident.pekerjaan : selectResidents.job[0].value,
+        perkawinan:
+            mode === 'edit'
+                ? resident.perkawinan
+                : selectResidents.marriage[0].value,
+        agama:
+            mode === 'edit' ? resident.agama : selectResidents.agama[0].value,
         telpon: mode === 'edit' ? resident.telpon : '',
-        goldar: mode === 'edit' ? resident.goldar : '',
-        kewarganegaraan: mode === 'edit' ? resident.kewarganegaraan : ''
+        goldar:
+            mode === 'edit' ? resident.goldar : selectResidents.blood[0].value,
+        kewarganegaraan:
+            mode === 'edit'
+                ? resident.kewarganegaraan
+                : selectResidents.citizen[0].value
     });
 
     function handleInputNumber(event, field) {
@@ -211,6 +220,7 @@ export default function FormResident({ mode = 'create', resident = {} }) {
                         onChange={(e) =>
                             setData('kewarganegaraan', e.target.value)
                         }
+                        required
                     />
                     <InputError
                         message={errors.kewarganegaraan}
@@ -227,7 +237,6 @@ export default function FormResident({ mode = 'create', resident = {} }) {
                     className="mt-1 block w-full"
                     autoComplete="telephone"
                     onChange={(e) => handleInputNumber(e, 'telpon')}
-                    required
                 />
                 <InputError message={errors.telpon} className="mt-2" />
             </div>
