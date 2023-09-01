@@ -29,7 +29,19 @@ class LetterTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required'],
+            'description' => ['required'],
+            'requirements' => ['required'],
+        ]);
+        LetterType::create([
+            'name'              => $request->name,
+            'type'              => $request->type,
+            'description'       => $request->description,
+            'requirements'      => $request->requirements
+        ]);
+
+        return to_route('jenissurat.index');
     }
 
     /**

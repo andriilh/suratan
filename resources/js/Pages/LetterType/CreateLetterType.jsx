@@ -1,5 +1,4 @@
 import Checkbox from '@/Components/Checkbox';
-import DangerButton from '@/Components/DangerButton';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import Modal from '@/Components/Modal';
@@ -8,8 +7,7 @@ import SecondaryButton from '@/Components/SecondaryButton';
 import SelectInput from '@/Components/SelectInput';
 import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
-import { Add, Delete, DeleteOutline } from '@mui/icons-material';
-import React from 'react';
+import { Add, DeleteOutline } from '@mui/icons-material';
 import { useState } from 'react';
 
 const reqFileType = [
@@ -20,7 +18,7 @@ const reqFileType = [
 ];
 
 export default function CreateLetterType({ show, close }) {
-    const { data, setData, post, errors, processing } = useForm({
+    const { data, setData, post, errors, processing, reset } = useForm({
         name: '',
         description: '',
         requirements: [{ name: '', type: '', required: true }]
@@ -39,18 +37,25 @@ export default function CreateLetterType({ show, close }) {
         const reqq = [...req];
         reqq.splice(1, req.length - 1);
         setReq(reqq);
+        reset();
     };
 
     const submitLetterType = (e) => {
         e.preventDefault();
         setData('requirements', req);
+        post(route('jenissurat.store'), {
+            onSuccess: () => {
+                close();
+                reset();
+            }
+        });
     };
 
     const handleRequirements = () => {
         const newRequirement = {
             name: '',
             type: '.jpg,.png,.jpeg,.pdf',
-            required: false
+            required: true
         };
         setReq([...req, newRequirement]);
         setData('requirements', req);
@@ -219,7 +224,11 @@ export default function CreateLetterType({ show, close }) {
                     <SecondaryButton onClick={handleCancel}>
                         Batal
                     </SecondaryButton>
-                    <PrimaryButton className="ml-3" type="submit">
+                    <PrimaryButton
+                        className="ml-3"
+                        type="submit"
+                        disabled={processing}
+                    >
                         Simpan
                     </PrimaryButton>
                 </div>
